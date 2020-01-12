@@ -40,15 +40,6 @@ module.exports = function(deployer) {
       ].join(',')
     );
     await deployer.deploy(DeploymentManager, biliraDeployer.address);
-    const deploymentManager = await DeploymentManager.deployed();
-    debugger;
-    // return deployer.deploy(
-    //   BiliraFundingContractDeployer,
-    //   name,
-    //   deposit,
-    //   limitOfParticipants,
-    //   coolingPeriod,
-    //   emptyAddress
-    // );
+    await DeploymentManager.deployed();
   });
 };
