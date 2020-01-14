@@ -19,6 +19,7 @@
     "chai-as-promised": "^7.1.1",
     "crypto": "^1.0.1",
     "eth-gas-reporter": "^0.2.14",
+    "ethval": "^2.0.0",
     "openzeppelin-solidity": "^2.4.0",
     "sol-merger": "^1.2.2",
     "truffle": "^5.1.3",

@@ -1307,6 +1307,11 @@ decamelize@^1.2.0:
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
   integrity sha1-9lNNFRSCabIDUue+4m9QH5oZEpA=
 
+decimal.js@^10.0.1:
+  version "10.2.0"
+  resolved "https://registry.yarnpkg.com/decimal.js/-/decimal.js-10.2.0.tgz#39466113a9e036111d02f82489b5fd6b0b5ed231"
+  integrity sha512-vDPw+rDgn3bZe1+F/pyEwb1oMG2XTlRVgAa6B4KccTEpYgF8w6eQllVbQcfIJnZyvzFtFpxnpGtx8dd7DJp/Rw==
+
 decode-uri-component@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
@@ -1750,6 +1755,13 @@ ethjs-util@0.1.6:
   dependencies:
     is-hex-prefixed "1.0.0"
     strip-hex-prefix "1.0.0"
+
+ethval@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ethval/-/ethval-2.0.0.tgz#46f49dea189a1eced75b566bcc211b47a24f8b69"
+  integrity sha512-pd8f5Ddt7qv5X3d8ON+SfupseVEct65PjtGanV4C3VmipW6VzemHlVjiKzI/zKtjlWZfLcvUlOnNwumVlHxyVA==
+  dependencies:
+    decimal.js "^10.0.1"
 
 event-emitter@^0.3.5:
   version "0.3.5"
