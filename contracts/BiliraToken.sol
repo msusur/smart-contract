@@ -8,10 +8,9 @@ contract BiliraToken is ERC20, ERC20Detailed {
     string private _symbol = 'TRYb';
     uint8 private _decimals = 6;
 
-    address account = msg.sender;
-    uint value = 1000000 ether;
-
     constructor() ERC20Detailed( _name, _symbol, _decimals) public {
+        address account = msg.sender;
+        uint value = 1000000 ** uint(_decimals);
         _mint(account, value);
     }
 }

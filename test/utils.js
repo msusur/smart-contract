@@ -1,4 +1,4 @@
-const { toBN } = require('web3-utils');
+const { toBN, currentProvider } = require('web3-utils');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
@@ -43,6 +43,35 @@ module.exports.getEvents = async (result, eventName) => {
   assert.isTrue(events.length > 0);
 
   return events;
+};
+
+module.exports.increaseTime = function(duration) {
+  const id = Date.now();
+
+  return new Promise((resolve, reject) => {
+    currentProvider.sendAsync(
+      {
+        jsonrpc: '2.0',
+        method: 'evm_increaseTime',
+        params: [duration],
+        id: id
+      },
+      err1 => {
+        if (err1) return reject(err1);
+
+        currentProvider.sendAsync(
+          {
+            jsonrpc: '2.0',
+            method: 'evm_mine',
+            id: id + 1
+          },
+          (err2, res) => {
+            return err2 ? reject(err2) : resolve(res);
+          }
+        );
+      }
+    );
+  });
 };
 
 module.exports.outputBNs = bn => {
