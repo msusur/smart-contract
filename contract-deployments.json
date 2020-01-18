@@ -1,0 +1,16 @@
+{
+  "rinkeby": {
+    "UcurtmaTestToken": {
+      "address": "0x31f1cfbbbd9ce6ee0f8d9c79828b0b099653daa0",
+      "transaction": "0x735ea35878c426ab1921ac232902f1e0cfce29136429afb410484fce3ee2317d"
+    },
+    "DeploymentManager": {
+      "address": "0x503000643432fb911aa97580c75678e270f15942",
+      "transaction": "0xe9f9272a753588d9e411138b15cdf3437d3ff1e710fc52b5a53af4e60cad81a8"
+    },
+    "BiliraFundingContractDeployer": {
+      "address": "0xc151772a456bec080278580798d556e6aff350ca",
+      "transaction": "0xd7b2c360fac14c8851d17d0645a1b7edac30e8f4fdb67c57b96e8a1bb1df6f8b"
+    }
+  }
+}
