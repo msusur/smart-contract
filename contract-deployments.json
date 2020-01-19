@@ -5,12 +5,12 @@
       "transaction": "0x735ea35878c426ab1921ac232902f1e0cfce29136429afb410484fce3ee2317d"
     },
     "DeploymentManager": {
-      "address": "0x503000643432fb911aa97580c75678e270f15942",
-      "transaction": "0xe9f9272a753588d9e411138b15cdf3437d3ff1e710fc52b5a53af4e60cad81a8"
+      "address": "0xc3Ad272479a353cd45F731A6D46bA24501900630",
+      "transaction": "0xa221dbb5106570043b62a6d14d82553dd5c060d90daf60eb1370e578f9208313"
     },
     "BiliraFundingContractDeployer": {
-      "address": "0xc151772a456bec080278580798d556e6aff350ca",
-      "transaction": "0xd7b2c360fac14c8851d17d0645a1b7edac30e8f4fdb67c57b96e8a1bb1df6f8b"
+      "address": "0xE715611E2eA5eC006372BFDDE1cE67F8507fB490",
+      "transaction": "0x1d92bb277c7f99432297a8cd70f32f9f231e8efcfa39d64b9b1d1e58f2eca3c7"
     }
   }
 }
