@@ -2,8 +2,9 @@ pragma solidity ^0.5.11;
 
 import './FundingContract.sol';
 import './zeppelin/ownership/Ownable.sol';
+import './zeppelin/ownership/AdminControlled.sol';
 
-contract AbstractFundingContract is FundingContract, Ownable {
+contract AbstractFundingContract is FundingContract, Ownable, AdminControlled {
 
   uint256 public numberOfPlannedPayouts;
   uint256 public withdrawPeriod;
@@ -17,10 +18,19 @@ contract AbstractFundingContract is FundingContract, Ownable {
     _;
   }
 
+  modifier isCancelled {
+    require(cancelled, 'Campaign should be cancelled');
+    _;
+  }
+
   constructor(uint256 _numberOfPlannedPayouts,
     uint256 _withdrawPeriod,
     uint256 _campaignEndTime,
-    address payable __owner) public {
+    address payable __owner,
+    address _administrator
+  )
+    AdminControlled(_administrator)
+    public {
 
     numberOfPlannedPayouts = _numberOfPlannedPayouts;
     withdrawPeriod = _withdrawPeriod;
@@ -50,8 +60,19 @@ contract AbstractFundingContract is FundingContract, Ownable {
     emit PayoutWithdrawed(msg.sender, payoutAmount);
   }
 
+  function toggleCancellation() external onlyAdmin returns(bool) {
+    cancelled = !cancelled;
+    return cancelled;
+  }
+
+  function paybackTokens(address payable originalPayee, uint256 amount) external isCancelled onlyAdmin {
+
+    doWithdraw(originalPayee, amount);
+  }
+
   function deposit(address donator, uint256 amount) external notCancelled {
     doDeposit(donator, amount);
+    emit NewDeposit(donator, amount);
   }
 
   function totalBalance(address payable /* owner */) public view returns (uint256) {
@@ -62,7 +83,7 @@ contract AbstractFundingContract is FundingContract, Ownable {
     revert('This must be implemented in the inheriting class');
   }
 
-  function doDeposit(address /* donator */, uint256 /* amount */) internal { 
+  function doDeposit(address /* donator */, uint256 /* amount */) internal {
     revert('This must be implemented in the inheriting class');
   }
 }

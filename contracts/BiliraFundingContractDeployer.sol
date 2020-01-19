@@ -10,14 +10,15 @@ contract BiliraFundingContractDeployer is Deployer {
         uint256 _campaignEndTime,
         address payable __owner,
         address _tokenAddress,
-        address /*_adminAddress*/
+        address _adminAddress
     ) external returns(FundingContract c) {
         c = new ERC20FundingContract(
          _numberOfPlannedPayouts,
          _withdrawPeriod,
          _campaignEndTime,
          __owner,
-         _tokenAddress
+         _tokenAddress,
+         _adminAddress
         );
     }
 }

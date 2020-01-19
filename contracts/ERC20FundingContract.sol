@@ -12,9 +12,10 @@ contract ERC20FundingContract is AbstractFundingContract {
     uint256 _withdrawPeriod,
     uint256 _campaignEndTime,
     address payable _owner,
-    address _tokenAddress
+    address _tokenAddress,
+    address _administrator
   )
-    AbstractFundingContract(_numberOfPlannedPayouts, _withdrawPeriod, _campaignEndTime, _owner)
+    AbstractFundingContract(_numberOfPlannedPayouts, _withdrawPeriod, _campaignEndTime, _owner, _administrator)
     public {
       require(_tokenAddress != address(0), 'need a valid token address');
       token = IERC20(_tokenAddress);

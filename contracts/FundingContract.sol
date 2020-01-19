@@ -15,6 +15,7 @@ Student:
 interface FundingContract {
   // Events
   event PayoutWithdrawed(address toAddress, uint256 amount);
+  event NewDeposit(address from, uint256 amount);
 
   // Variables
   // Ownable
@@ -31,4 +32,6 @@ interface FundingContract {
   // AbstractFundingContract
   function withdraw() external;
   function deposit(address donator, uint256 amount) external;
+  function paybackTokens(address payable originalPayee, uint256 amount) external;
+  function toggleCancellation() external returns(bool);
 }

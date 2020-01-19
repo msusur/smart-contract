@@ -29,7 +29,8 @@ contract('ERC20 Funding Contract', accounts => {
       campaignEndTime,
       _owner,
       tokenAddress,
-      { gasPrice: gasPrice, sender: owner }
+      owner,
+      { gasPrice: gasPrice, from: owner }
     );
   };
   const getBalance = async account => await token.balanceOf(account);
