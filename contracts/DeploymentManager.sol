@@ -12,7 +12,7 @@ contract DeploymentManager is Destructible {
 
     Deployer erc20Deployer;
 
-    DeployedContract[] deployedContracts;
+    DeployedContract[] public deployedContracts;
 
     constructor(address _erc20Deployer) public {
         erc20Deployer = Deployer(_erc20Deployer);
@@ -22,6 +22,10 @@ contract DeploymentManager is Destructible {
         address indexed deployedAddress,
         address indexed deployer
     );
+
+    function updateERC20Deployer(address _erc20Deployer) external onlyOwner {
+        erc20Deployer = Deployer(_erc20Deployer);
+    }
 
     function deploy(
         uint256 _numberOfPlannedPayouts,
