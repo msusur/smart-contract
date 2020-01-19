@@ -66,7 +66,7 @@ contract('ERC20 Funding Contract', accounts => {
       await getBalance(fundingContract.address).should.eventually.eq(100);
     });
 
-    it.only('student cannot withdraw money if the campaign is not over', async () => {
+    it('student cannot withdraw money if the campaign is not over', async () => {
       const latestBlock = await web3.eth.getBlock('latest');
 
       let fundingContract = await createFundingContract({
