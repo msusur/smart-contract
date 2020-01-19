@@ -25,7 +25,9 @@
       ],
       "program": "${workspaceFolder}/node_modules/.bin/sol-merger",
       "args": [
-        "./contracts/UcurtmaTestToken.sol",
+        // "./contracts/ERC20FundingContract.sol",
+        // "./contracts/BiliraFundingContractDeployer.sol",
+        "./contracts/DeploymentManager.sol",
         "./build"
       ]
     }
