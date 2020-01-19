@@ -8,19 +8,12 @@ contract AbstractFundingContract is FundingContract, Ownable {
   uint256 public numberOfPlannedPayouts;
   uint256 public withdrawPeriod;
   uint256 public lastWithdraw;
-  bool public campaignEnded;
-  uint256 public campaignEndedAt;
   bool public cancelled;
   uint256 public totalNumberOfPayoutsLeft;
   uint256 public withdrawLimit;
 
   modifier notCancelled {
     require(!cancelled, 'Campaign is cancelled');
-    _;
-  }
-
-  modifier campaignFinished {
-    require(campaignEnded, 'Campaign is still active.');
     _;
   }
 
@@ -40,13 +33,12 @@ contract AbstractFundingContract is FundingContract, Ownable {
 
   function canWithdraw() public view returns(bool) {
     // Check when was the last time the withdraw happened, and add withdraw period.
-    require(now > lastWithdraw + withdrawPeriod, 'Should wait until the last payout day.');
-    return true;
+    return now > lastWithdraw + withdrawPeriod;
   }
 
   // Functions
   // AbstractFundingContract
-  function withdraw() external notCancelled campaignFinished onlyOwner {
+  function withdraw() external notCancelled onlyOwner {
     require(canWithdraw(), 'Not allowed to withdraw');
     uint256 leftBalance = totalBalance(msg.sender);
     require(leftBalance > 0, 'Insufficient funds');
@@ -58,11 +50,11 @@ contract AbstractFundingContract is FundingContract, Ownable {
     emit PayoutWithdrawed(msg.sender, payoutAmount);
   }
 
-  function deposit(address donator, uint256 amount) external notCancelled campaignFinished {
+  function deposit(address donator, uint256 amount) external notCancelled {
     doDeposit(donator, amount);
   }
 
-  function totalBalance(address payable /* owner */) public returns (uint256) {
+  function totalBalance(address payable /* owner */) public view returns (uint256) {
     revert('This must be implemented in the inheriting class');
   }
 

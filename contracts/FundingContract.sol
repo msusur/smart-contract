@@ -24,8 +24,6 @@ interface FundingContract {
   function withdrawPeriod() external view returns(uint256);
   function lastWithdraw() external view returns(uint256);
   function canWithdraw() external view returns(bool);
-  function campaignEnded() external view returns (bool);
-  function campaignEndedAt() external view returns (uint256);
   function cancelled() external view returns (bool);
   function totalNumberOfPayoutsLeft() external view returns (uint256);
 

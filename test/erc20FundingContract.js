@@ -66,11 +66,13 @@ contract('ERC20 Funding Contract', accounts => {
       await getBalance(fundingContract.address).should.eventually.eq(100);
     });
 
-    it('student cannot withdraw money if the campaign is not over', async () => {
+    it.only('student cannot withdraw money if the campaign is not over', async () => {
+      const latestBlock = await web3.eth.getBlock('latest');
+
       let fundingContract = await createFundingContract({
         numberOfPlannedPayouts: 10,
-        withdrawPeriod: 1,
-        campaignEndTime: 0,
+        withdrawPeriod: 10000,
+        campaignEndTime: latestBlock.timestamp,
         student,
         tokenAddress: token.address
       });

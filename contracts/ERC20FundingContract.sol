@@ -20,7 +20,7 @@ contract ERC20FundingContract is AbstractFundingContract {
       token = IERC20(_tokenAddress);
   }
 
-  function totalBalance(address payable /* owner */) public returns (uint256) {
+  function totalBalance(address payable /* owner */) public view returns (uint256) {
     return token.balanceOf(address(this));
   }
 
