@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Basic Smart Contract Management</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="contract-manager.css" />
+    <script src="/lib/web3.min.js"></script>
+    <script src="/lib/web3.utils.js"></script>
+  </head>
+
+  <body>
+    <div class="content">
+      <span class="label"> Cuzdan Adresi: </span>
+      <strong>
+        <a
+          id="etherscan-link"
+          href="https://rinkeby.etherscan.com/"
+          target="_blank"
+        >
+          <span class="label" id="wallet-address"> yukleniyor... </span>
+        </a>
+      </strong>
+    </div>
+    <div class="content">
+      <label for="contractAddress">Akilli kontratin adresi</label>
+      <input
+        name="contractAddress"
+        id="contract-address"
+        value="0xac3e149220EcAd1C620fC39EAc4264ed78dDe526"
+      />
+    </div>
+    <div class="content">
+      <span class="label"> Toplam Para: </span>
+      <span id="balance">yukleniyor...</span>
+    </div>
+    <div class="content">
+      <span class="label">Para cekebilir miyim?: </span>
+      <span id="canWithdraw">yukleniyor...</span>
+    </div>
+    <div class="content">
+      <span class="label">Kac Odeme hakkim kaldi?: </span>
+      <span id="payout-left">yukleniyor...</span>
+    </div>
+    <div class="content">
+      <span class="label">En son ne zaman para cektik?: </span>
+      <span id="lastWithdraw">yukleniyor...</span>
+    </div>
+    <div class="content">
+      <span class="label">Bir sonraki odeme tarihi?: </span>
+      <span id="nextWithdraw">yukleniyor...</span>
+    </div>
+    <div class="content">
+      <button id="withdraw">Para cek</button>
+    </div>
+    <div id="message"></div>
+    <script>
+      const setupWeb3 = async () => {
+        return new Promise(async (resolve, reject) => {
+          if (!window.web3) {
+            return reject('Metamask bulamadim.');
+          }
+          window.web3 = new Web3(window.web3.currentProvider);
+
+          const network = await getNetworkId(web3);
+          if (network.networkId !== '4') {
+            return reject('Metamask Rinkeby agina bakmali.');
+          }
+          await window.ethereum.enable();
+          resolve(web3);
+        });
+      };
+
+      const loadContractInitial = async (web3, erc20FundingContract) => {
+        document.getElementById('balance').innerText =
+          parseInt(
+            await erc20FundingContract.methods
+              .totalBalance(erc20FundingContract.options.address)
+              .call()
+          ) /
+            1000000 +
+          ' Lira';
+        const canWithdraw =
+          (
+            await erc20FundingContract.methods.canWithdraw().call()
+          ).toString() === 'true';
+        document.getElementById('canWithdraw').innerText = canWithdraw
+          ? 'Evet'
+          : 'Hayir';
+
+        document.getElementById('withdraw').disabled = !canWithdraw;
+
+        document.getElementById(
+          'payout-left'
+        ).innerText = await erc20FundingContract.methods
+          .totalNumberOfPayoutsLeft()
+          .call();
+
+        const lastWithdrawTimeStamp = parseInt(
+          await erc20FundingContract.methods.lastWithdraw().call()
+        );
+        const period = parseInt(
+          await erc20FundingContract.methods.withdrawPeriod().call()
+        );
+        document.getElementById('lastWithdraw').innerText = new Date(
+          parseInt(lastWithdrawTimeStamp) * 1000
+        ).toLocaleString();
+
+        document.getElementById('nextWithdraw').innerText = new Date(
+          parseInt(lastWithdrawTimeStamp + period) * 1000
+        ).toLocaleString();
+      };
+
+      const init = async web3 => {
+        const address = await getAccount(web3);
+        document.getElementById('wallet-address').innerText = address;
+        document.getElementById('etherscan-link').href =
+          'https://rinkeby.etherscan.io/address/' + address;
+        const abi = await getContractAbi();
+        const textBox = document.getElementById('contract-address');
+        const contractAddress = textBox.value;
+
+        const erc20FundingContract = await getContract(
+          web3,
+          abi,
+          contractAddress
+        );
+
+        loadContractInitial(web3, erc20FundingContract);
+        document.getElementById('withdraw').onclick = () => {
+          document.getElementById('message').innerText =
+            'Yukleniyor... Sabret.';
+          const result = erc20FundingContract.methods
+            .withdraw()
+            .send({ from: address })
+            .then(f => {
+              document.getElementById('message').innerText = 'Islem tamam';
+            })
+            .catch(err => {
+              document.getElementById('message').innerText =
+                'Hata olustu \r\n' + err.message;
+            });
+        };
+      };
+
+      setupWeb3().then(web3 => init(web3));
+
+      document
+        .getElementById('contract-address')
+        .addEventListener('change', () => {
+          init(window.web3);
+        });
+    </script>
+  </body>
+</html>

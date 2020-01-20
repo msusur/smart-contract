@@ -1,0 +1,36 @@
+
+body {
+  font-family: 'myriad pro', sans-serif;
+  font-size: 20px;
+  border: 0;
+}
+
+.content {
+  display: block;
+  margin: 5% auto;
+}
+
+.content input {
+  font-size: 85%;
+}
+
+.content .label {
+  font-size: 0.7em;
+}
+
+button {
+  background-color: #1FADC5;
+  border: 1px solid rgba(0,0,0,.2);
+  font-size: 75%;
+  color: #fff;
+  padding: .4em 1.2em;
+  border-radius: 2em;
+  cursor: pointer;
+  margin: 0 .23em;
+  outline: none;
+}
+
+button[disabled] {
+  background-color: #ddd;
+  color: #aaa;
+}
